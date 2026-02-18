@@ -1,0 +1,8 @@
+#profile-update-interval: 1
+#profile-title: Apelsin Vpn
+#support-url: https://t.me/FlexVerified
+#profile-web-page-url: https://t.me/FlexVerified
+#announce: VPN access for 350 RUB/month | ID: 1860340689
+#device-limit: 3
+#subscription-status: active
+vless://6cd958d1-f1de-436d-8be8-fd5369e8e48a@example.com:8443?security=reality&type=tcp&flow=xtls-rprx-vision&sni=example.com&fp=random&pbk=REPLACE_ME&sid=REPLACE_ME#Main
