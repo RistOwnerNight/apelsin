@@ -1,0 +1,99 @@
+name: Update VPN Configs
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/workflows/**"
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-vpn-configs
+  cancel-in-progress: true
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup Python
+        uses: actions/setup-python@v6.2.0
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Script
+        shell: python
+        env:
+          MY_HWID: "467c01e84d78a648"
+          SUB_URL: "https://sub.ktoygaday.xyz/QaqdWEapE5kmmUxm"
+        run: |
+          import os
+          import base64
+          import requests
+
+          def main():
+              try:
+                  headers = {"User-Agent": "Happ/3.9.1", "X-HWID": os.environ["MY_HWID"]}
+                  r = requests.get(os.environ["SUB_URL"], headers=headers, timeout=30)
+                  if not r.ok:
+                      return
+                  conf = r.text.strip()
+                  if not conf.startswith(("vless://", "ss://", "trojan://")):
+                      try:
+                          conf = base64.b64decode(conf + '=' * (-len(conf) % 4)).decode('utf-8')
+                      except:
+                          pass
+                  conf = conf.strip()
+              except:
+                  return
+
+              for root, dirs, files in os.walk('.'):
+                  dirs[:] = [d for d in dirs if d not in {'.git', '.github'}]
+                  for file in files:
+                      try:
+                          path = os.path.join(root, file)
+                          with open(path, 'r', encoding='utf-8') as f:
+                              lines = f.read().splitlines()
+                          
+                          cut = 0
+                          active = False
+                          for i, line in enumerate(lines):
+                              s = line.strip()
+                              if not s:
+                                  continue
+                              if not s.startswith('#'):
+                                  break
+                              if "#subscription-status: active" in s.lower():
+                                  active = True
+                              cut = i + 1
+                          
+                          if active:
+                              header = '\n'.join(lines[:cut])
+                              new_text = (header + '\n' + conf + '\n') if header else (conf + '\n')
+                              with open(path, 'w', encoding='utf-8') as f:
+                                  f.write(new_text)
+                      except:
+                          pass
+
+          if __name__ == "__main__":
+              main()
+
+      - name: Push changes
+        run: |
+          git config --global user.name "actions-user"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "update" || exit 0
+          git push
