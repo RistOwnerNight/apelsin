@@ -5,4 +5,4 @@
 #announce: Welcome to Apelsin VPN
 #device-limit: 1
 #subscription-status: active
-vless://9b199afa-68a6-480b-8b3c-b9d9ef3cbfa6@0.0.0.0:1?security=&type=tcp&headerType=&path=&host=#Limit%20of%20devices%20reached
+vless://6fc0f240-1f78-4c8c-9018-930cac4065ca@0.0.0.0:1?security=&type=tcp&headerType=&path=&host=#Limit%20of%20devices%20reached
