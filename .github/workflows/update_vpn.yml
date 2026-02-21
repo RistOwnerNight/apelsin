@@ -37,7 +37,7 @@ jobs:
         shell: python
         env:
           MY_HWID: "467c01e84d78a648"
-          SUB_URL: "https://incsub.myincteam.org/9-NnAK_Vs4k-tJeC"
+          SUB_URL: ${{ secrets.VPN_SUB_URL }}
         run: |
           import os
           import base64
