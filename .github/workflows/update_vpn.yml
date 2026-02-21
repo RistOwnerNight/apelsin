@@ -96,23 +96,4 @@ jobs:
           git config --global user.email "actions@github.com"
           git add .
           git commit -m "update" || exit 0
-          branch="${GITHUB_REF_NAME:-main}"
-          for attempt in 1 2 3; do
-            git pull --rebase origin "$branch" || {
-              git rebase --abort || true
-              if [ "$attempt" -eq 3 ]; then
-                echo "Rebase failed after $attempt attempts"
-                exit 1
-              fi
-              sleep 2
-              continue
-            }
-            if git push origin "HEAD:$branch"; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              echo "Push failed after $attempt attempts"
-              exit 1
-            fi
-            sleep 2
-          done
+          git push
