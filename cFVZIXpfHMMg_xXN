@@ -1,0 +1,8 @@
+#profile-update-interval: 1
+#profile-title: Apelsin VPN
+#support-url: https://t.me/your_support
+#profile-web-page-url: https://t.me/your_channel
+#announce: Welcome to Apelsin VPN
+#device-limit: 2
+#subscription-status: active
+vless://340ecddc-43b6-4bbc-96d7-c52e45b2c56a@example.com:8443?security=reality&type=tcp&flow=xtls-rprx-vision&sni=example.com&fp=random&pbk=REPLACE_ME&sid=REPLACE_ME#Main
